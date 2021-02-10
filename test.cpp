@@ -1,4 +1,7 @@
 #include "spreadsheet.hpp"
+#include "not.hpp"
+#include "contains.hpp"
+#include "and.hpp" 
 
 #include "gtest/gtest.h"
 #include "contains.hpp"
