@@ -38,20 +38,17 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
-class Select_Contains: public Select{
+class Select_Contains: public Select_Column{
 protected: 
-	const std::string& target;
-	const Spreadsheet* spread;
-	const std::string& columnName;
+	std::string target;
+	Spreadsheet* spread;
+	std::string columnName;
 public:
-	Select_Contains(const Spreadsheet* sheet, const std::string& column, const std::string& value)
-		: spread(sheet),columnName(column), target(value) {}
+	Select_Contains(Spreadsheet* sheet, const std::string& column, const std::string& value)
+	:Select_Column(sheet, column), target(value){}
 
-	virtual bool select(const Spreadsheet* sheet, int row)const{
-		int columnVal = sheet->get_column_by_name(columnName);
-		std::string search = sheet->cell_data(row, columnVal);
-		std::size_t found = search.find(target);
-		if(found!=std::string::npos){
+	virtual bool select(const std::string& s)const{
+		if(s.find(target) != std::string::npos){
 			return true;
 		}
 		else{
@@ -63,12 +60,12 @@ public:
 
 class Select_Not: public Select{
 protected:
-	Select* value;
+	Select* value1;
 public:
-	Select_Not(Select* value1):value(value1){}
-	
+	Select_Not(Select* arg1):value1(arg1){}
+
 	virtual bool select(const Spreadsheet* sheet, int row) const{
-		if(value->select(sheet, row)  == std::string::npos){
+		if(value1->select(sheet, row) == false){
 			return true;	
 		}
 		else{

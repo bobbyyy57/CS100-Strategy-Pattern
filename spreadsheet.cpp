@@ -43,21 +43,24 @@ int Spreadsheet::get_column_by_name(const std::string& name) const
 
 void Spreadsheet::print_selection(std::ostream& out)const{
 	if(select == nullptr){
-		for(int i = 0; i < this->data.size(); ++i){    //ITERATES THROUGH THE ROWS
-			for(int k =0; k < this->data.at(i).size(); ++k){ //ITERATES THORUGH THE COLUMS
-			out << this->cell_data(i, k)+" ";   //PRINTS THE DATA AT THE SPECIFIC CELL
+		for(int i = 0; i< data.size(); i++){
+			for(int j = 0; j < column_names.size(); j++){
+			out << this->cell_data(i,j) << " ";
 			}
-		std::cout<<std::endl;
-		} 
+			out << std::endl;
+		}
 	}
 	else{
-//		Select_Not* key = new Select(this);
-std::cout<< "Please finish your print_selection function." ;
-//		for(int i = 0; i < this->data.size(); ++i){    //ITERATES THROUGH THE ROWS
-//                      for(int k =0; k < this->data.at(i).size(); ++k){ //ITERATES THORUGH THE COLUMS
-//                        out << this->cell_data(i, k)+" ";   //PRINTS THE DATA AT THE SPECIFIC CELL
-//                        }
-//                std::cout<<std::endl;
-//                }
+		for(int i = 0; i< data.size(); i++){
+		for(int j = 0; j < column_names.size(); j++){
+			if(select->select(this, i) == true){
+			out << this->cell_data(i,j) << " ";
+			}
+		}
+			if(select->select(this, i)){
+			out << std:: endl;
+			}
+		}
 	}
+	
 }
