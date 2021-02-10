@@ -38,27 +38,29 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_Contains: public Select {
 
-class Select_Contains: public Select_Column {
-
-protected: 
+protected:
     std::string target;
-    std::string columnName;    
-    Spreadsheet* spread;    
+    int columnNum;
 
-public: 
-    Select_Contains(Spreadsheet* sheet, 
-	            const std::string& column,
-                    const std::string& value)  
-	: Select_Column(sheet, column), target(value) {}
- 
-    virtual bool select(const std::string& s) const {
-        if(s.find(target) != std::string::npos) { 
-		return true;
- 	}
- 	else {
- 		return false;
+public:
+    Select_Contains(Spreadsheet* sheet,
+                    const std::string& columnName,
+                    const std::string& value)
+        : target(value) {
+		columnNum = sheet->get_column_by_name(columnName);
 	}
+
+    virtual bool select(const Spreadsheet* sheet, int row) const {
+	std::string row__ = sheet->cell_data(row, columnNum);
+	size_t s = row__.find(target);
+		if(s != std::string::npos) {
+			return true;
+		}
+		else {
+			return false;
+		}
     }
 };
 
@@ -78,8 +80,10 @@ public:
 		return false;
 	}
 
-}
+    }
 };
+
+
 class Select_And: public Select {
 
 protected:
@@ -99,8 +103,38 @@ public:
                 return false;
         }
     }
-
 };
+
+/*
+class Select_And: public Select_Column {
+
+protected:
+    Select* value1;
+    Select* value2;
+
+public:
+    Select_And(Select* arg1, Select* arg2) : value1(arg1), value2(arg2) {}
+   
+    virtual bool select(const Spreadsheet* sheet, int row) const {
+   	int columnNum = sheet->get_column_by_name(column);  
+ 	std::string str = sheet->cell_data(row, columnNum);
+	
+
+
+	   bool val1 = value1->select(sheet, row);
+        bool val2 = value2->select(sheet, row);
+        if (val1 == true && val2 == true) {
+                return true;
+        }
+        else {
+                return false;
+        }
+    }
+};
+*/
+
+
+
 
 class Select_Or: public Select {
 

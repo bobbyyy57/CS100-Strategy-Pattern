@@ -46,6 +46,22 @@ int main(int argc, char* argv[])
     sheet.print_selection(std::cout);
     std::cout << std::endl;
 
+/*
+// sampeleepleple
+
+    sheet.set_selection(
+         new Select_And(
+             new Select_Contains(&sheet,"First","Amanda"),
+             new Select_And(
+                 new Select_Contains(&sheet,"Last","on"),
+                 new Select_Contains(&sheet,"Age","9"))));
+	
+    sheet.print_selection(std::cout);
+    std::cout << std::endl;
+
+*/
+
+
     return 0;
 }
 

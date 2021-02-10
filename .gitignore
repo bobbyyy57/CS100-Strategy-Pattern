@@ -7,3 +7,4 @@ contains.hpp
 lib/
 test
 CMakeCache.txt
+spreadsheet
