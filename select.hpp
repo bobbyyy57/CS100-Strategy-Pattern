@@ -7,7 +7,6 @@ class Select
 {
 public:
     virtual ~Select() = default;
-
     // Return true if the specified row should be selected.
     virtual bool select(const Spreadsheet* sheet, int row) const = 0;
 };
@@ -43,12 +42,12 @@ class Select_Contains: public Select {
 protected:
     std::string target;
     int columnNum;
-
+    Spreadsheet* spread;
 public:
     Select_Contains(Spreadsheet* sheet,
                     const std::string& columnName,
                     const std::string& value)
-        : target(value) {
+        : target(value), spread(sheet) {
 		columnNum = sheet->get_column_by_name(columnName);
 	}
 
@@ -72,6 +71,8 @@ protected:
 public:
     Select_Not(Select* arg1) : value1(arg1) {}
 
+     virtual ~Select_Not() { delete value1; }    
+
     virtual bool select(const Spreadsheet* sheet, int row) const {
 	if(value1->select(sheet, row) == false) {
 		return true;
@@ -91,50 +92,20 @@ protected:
     Select* value2;
 
 public:
+    virtual ~Select_And() { delete value1; delete value2; }
     Select_And(Select* arg1, Select* arg2) : value1(arg1), value2(arg2) {}
 
     virtual bool select(const Spreadsheet* sheet, int row) const {
 	bool val1 = value1->select(sheet, row);
 	bool val2 = value2->select(sheet, row);
 	if (val1 == true && val2 == true) {
-                return true;
+		return true;
         }
         else {
                 return false;
         }
     }
 };
-
-/*
-class Select_And: public Select_Column {
-
-protected:
-    Select* value1;
-    Select* value2;
-
-public:
-    Select_And(Select* arg1, Select* arg2) : value1(arg1), value2(arg2) {}
-   
-    virtual bool select(const Spreadsheet* sheet, int row) const {
-   	int columnNum = sheet->get_column_by_name(column);  
- 	std::string str = sheet->cell_data(row, columnNum);
-	
-
-
-	   bool val1 = value1->select(sheet, row);
-        bool val2 = value2->select(sheet, row);
-        if (val1 == true && val2 == true) {
-                return true;
-        }
-        else {
-                return false;
-        }
-    }
-};
-*/
-
-
-
 
 class Select_Or: public Select {
 
@@ -144,7 +115,7 @@ protected:
 
 public:
     Select_Or(Select* arg1, Select* arg2) : value1(arg1), value2(arg2) {}
-
+    virtual ~Select_Or() { delete value1; delete value2;}
     virtual bool select(const Spreadsheet* sheet, int row) const {
 	bool val1 = value1->select(sheet, row);
         bool val2 = value2->select(sheet, row);
