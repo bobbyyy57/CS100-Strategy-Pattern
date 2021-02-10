@@ -81,6 +81,9 @@ class Select_Not: public Select{
 protected:
 	Select* value1;
 public:
+	virtual ~Select_Not(){
+	delete value1;
+	}
 	Select_Not(Select* arg1):value1(arg1){}
 
 	virtual bool select(const Spreadsheet* sheet, int row) const{
@@ -100,6 +103,10 @@ protected:
 	Select* value1;
         Select* value2;
 public:
+	virtual ~Select_And(){
+	delete value1;
+	delete value2;
+	}
 	Select_And(Select* arg1, Select* arg2): value1(arg1), value2(arg2){}
 
 	virtual bool select(const Spreadsheet* sheet, int row)const{
@@ -107,6 +114,8 @@ public:
 		bool val2 = value2->select(sheet, row);
 		if(val1 == true && val2 == true){return true;}
 		else{return false;}
+//delete value1;
+//delete value2;
 	}
 };
 
@@ -115,6 +124,10 @@ protected:
 	Select* value1;
 	Select* value2;
 public:
+	virtual ~Select_Or(){
+	delete value1;
+	delete value2;
+	}
 	Select_Or(Select* arg1, Select* arg2):value1(arg1), value2(arg2){}
 
 	virtual bool select(const Spreadsheet* sheet, int row)const{
