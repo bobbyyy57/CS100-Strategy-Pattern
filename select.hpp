@@ -1,8 +1,12 @@
 #ifndef __SELECT_HPP__
 #define __SELECT_HPP__
-
+#include <string>
 #include <cstring>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
 
+using namespace std;
 class Select
 {
 public:
@@ -38,23 +42,38 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
-class Select_Contains: public Select_Column{
+class Select_Contains: public Select{
 protected: 
 	std::string target;
-	Spreadsheet* spread;
-	std::string columnName;
+//	Spreadsheet* spread;
+	int columnNum;
 public:
-	Select_Contains(Spreadsheet* sheet, const std::string& column, const std::string& value)
-	:Select_Column(sheet, column), target(value){}
+	Select_Contains(Spreadsheet* sheet, const std::string& columnName, const std::string& value)
+	:target(value){
+//	this->column = column;
+	columnNum = sheet->get_column_by_name(columnName); 
+	}
+	virtual bool select(const Spreadsheet* sheet, int row) const{
+//	virtual bool select(const std::string& s)const{
+/*	auto it = std::search(
+		s.begin(), s.end(), target.begin(), target.end(),
+		[](char ch1, char ch2) {return std::toupper(ch1) == std::toupper(ch2);}
+	)
+	return (it != s.end());
 
-	virtual bool select(const std::string& s)const{
-		if(s.find(target) != std::string::npos){
+*/		
+//	 column = sheet->get_column_by_name(columnName);
+	string row__ = sheet->cell_data(row, columnNum);
+	size_t s = row__.find(target);
+		if(s != std::string::npos){
 			return true;
 		}
 		else{
+	//	std::cout<<"ROHIT";
 			return false;
 		}
 	}
+
 };
 
 
