@@ -4,7 +4,6 @@
 #include "gtest/gtest.h"
 #include "select.hpp"
 #include "spreadsheet.hpp"
-#include "spreadsheet.cpp"
 
 TEST(ContainsTest, ContainsFound){
 	Spreadsheet sheet;

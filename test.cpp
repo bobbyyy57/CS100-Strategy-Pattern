@@ -1,12 +1,11 @@
 #include "spreadsheet.hpp"
 #include "not.hpp"
-#include "contains.hpp"
 #include "and.hpp" 
-
-#include "gtest/gtest.h"
 #include "contains.hpp"
 #include "select.hpp"
 #include "or.hpp"
+
+#include "gtest/gtest.h"
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
