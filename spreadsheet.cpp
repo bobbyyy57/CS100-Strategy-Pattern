@@ -53,18 +53,15 @@ void Spreadsheet::print_selection(std::ostream& out) const {
 	}
 	else {
 		for(int row = 0; row < data.size(); row++) {
-                       	for(int column = 0; column < column_names.size(); column++) {
-                               	if(select->select(this, row) == true) {
-					out << this->cell_data(row, column) << " ";
-                        	}
-	              	}
-			if(select->select(this, row) == true) {
-				out << std::endl;
-        		}    
+               for(int column = 0; column < column_names.size(); column++) {
+                           if(select->select(this, row) == true) {
+					                       out << this->cell_data(row, column) << " ";
+                           }
+	             }
+               if(select->select(this, row) == true) {
+                          out << std::endl;
+        		   }    
 		} 
-	}
+ }
 }
-
-
-
 

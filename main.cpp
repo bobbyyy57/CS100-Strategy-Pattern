@@ -45,8 +45,6 @@ int main(int argc, char* argv[])
 
     sheet.print_selection(std::cout);
     std::cout << std::endl;
-    sheet.clear();
-   return 0;
-
+    return 0;
 }
 

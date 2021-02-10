@@ -1,8 +1,12 @@
 #ifndef __SELECT_HPP__
 #define __SELECT_HPP__
-
+#include <string>
 #include <cstring>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
 
+using namespace std;
 class Select
 {
 public:
@@ -25,7 +29,7 @@ protected:
 public:
     Select_Column(const Spreadsheet* sheet, const std::string& name)
     {
-        column = sheet->get_column_by_name(name);
+      column = sheet->get_column_by_name(name);
     }
 
     virtual bool select(const Spreadsheet* sheet, int row) const
@@ -128,6 +132,5 @@ public:
     }
 
 };
-
 
 #endif //__SELECT_HPP__

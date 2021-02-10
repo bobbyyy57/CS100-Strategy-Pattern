@@ -3,8 +3,7 @@ CMakeFiles/
 Makefile
 a.out
 cmake_install.cmake
-contains.hpp
-lib/
-test
-CMakeCache.txt
 spreadsheet
+test
+lib/
+CMakeCache.txt

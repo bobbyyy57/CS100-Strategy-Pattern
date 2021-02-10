@@ -29,7 +29,7 @@ public:
 
     void set_selection(Select* new_select);
 
-    // TODO: Implement print_selection.
+    // TODO: FINISHT THE IMPLEMENTATION OF THE FUNCTION BELOW
     void print_selection(std::ostream& out) const;
 
     void clear();
