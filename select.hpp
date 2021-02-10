@@ -39,31 +39,27 @@ public:
 };
 
 
-class Select_Contains: public Select {
+class Select_Contains: public Select_Column {
 
 protected: 
-    const std::string& target;
-    const std::string& columnName;    
-    const Spreadsheet* spread;    
+    std::string target;
+    std::string columnName;    
+    Spreadsheet* spread;    
 
 public: 
-    Select_Contains(const Spreadsheet* sheet, 
+    Select_Contains(Spreadsheet* sheet, 
 	            const std::string& column,
                     const std::string& value)  
-	: spread(sheet), columnName(column), target(value) {}
+	: Select_Column(sheet, column), target(value) {}
  
-    virtual bool select(const Spreadsheet* sheet, int row) const {
-        int columnVal = sheet->get_column_by_name(columnName);
-        std::string search = sheet->cell_data(row, columnVal);       
-        std::size_t found =  search.find(target);
-
-        if(found != std::string::npos) {
+    virtual bool select(const std::string& s) const {
+        if(s.find(target) != std::string::npos) { 
 		return true;
  	}
  	else {
  		return false;
- 	}			
-     }
+	}
+    }
 };
 
 class Select_Not: public Select {
@@ -75,38 +71,15 @@ public:
     Select_Not(Select* arg1) : value1(arg1) {}
 
     virtual bool select(const Spreadsheet* sheet, int row) const {
-	if(value1->select(sheet, row) == std::string::npos) {
+	if(value1->select(sheet, row) == false) {
 		return true;
 	}
 	else {
 		return false;
 	}
-    } 
+
+}
 };
-
-/*
-
-    virtual bool select(const Spreadsheet* sheet, int row) const 
-    {
-	std::string objectA = sheet->cell_data(row, this->column);
-	sheet->set_selection(value1);										
-	this->objectB = sheet->cell_data(row, this->column);
-	return select(objectA);
-    }
-
-    virtual bool select(const std::string& objectA) const {
-	// compare value1's string value 	
-	size_t found = objectB.find(objectA);
- 	if(found == std::string::npos) {
-           return true;
-        }
-        else {
-           return false;
-        }		
-    }
-*/
-//};
-
 class Select_And: public Select {
 
 protected:
